@@ -4,13 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Meal extends Model
+class Order extends Model
 {
-
     public function user(){
-        $this->belongsTo('App\User');
+        $this->hasOne('App\User');
     }
-
-
-
 }

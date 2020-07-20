@@ -42,8 +42,13 @@ class User extends Authenticatable
         return $this->belongsTo('App\Role');
     }
 
-    public function meals()
+    public function meal()
     {
         return $this->hasMany('App\Meal');
     }
+
+    public function order(){
+        return $this->hasMany('App\Order');
+    }
+
 }

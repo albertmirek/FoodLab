@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Meal;
 
 class HomeController extends Controller
 {
@@ -26,7 +27,7 @@ class HomeController extends Controller
     {
 
         $user = Auth::user();
-        $meals = Meal::all();
-        return view('home', compact('user'));
+        $meal = Meal::all();
+        return view('home', ['meal' => Meal::all()]);
     }
 }

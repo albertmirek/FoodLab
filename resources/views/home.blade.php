@@ -19,7 +19,7 @@
             </div>
 
             <div>
-                @foreach(meal as $meals)
+                @foreach($meal as $meals)
                     <p>{{$meals->name}}</p>
 
 
