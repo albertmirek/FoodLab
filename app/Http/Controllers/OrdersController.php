@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Meal;
 use Illuminate\Http\Request;
-use function GuzzleHttp\Promise\all;
 
-class MealsController extends Controller
+class OrdersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +13,7 @@ class MealsController extends Controller
      */
     public function index()
     {
-        $meals = Meal::all();
-        return view('admin.meals.index', ['meals'=>$meals]);
+        //
     }
 
     /**
@@ -26,7 +23,7 @@ class MealsController extends Controller
      */
     public function create()
     {
-        return view('admin.meals.create');
+
     }
 
     /**
@@ -35,21 +32,9 @@ class MealsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(Request $request)
     {
-//        $inputs =  \request()->validate([
-//
-//            'name'=>'required|min:8|max:255'
-//        ]);
-//        \auth()->user()->meals()->create($inputs);
-//        return back();
-
-        $inputs = \request()->validate([
-            'name'=>'required|min:6|max:30'
-        ]);
-
-         auth()->user()->meals()->create($inputs);
-         return back();
+        //
     }
 
     /**

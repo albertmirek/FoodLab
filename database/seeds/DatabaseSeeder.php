@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Faker\Generator as Faker;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,9 +13,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UserSeeder::class);
-        DB::table('meals')->insert([
-            'user_id'=> 1,
-            'name' => Str::random(10)
+        DB::table('users')->insert([
+            'id' =>  '1',
+            'role_id'=>'1',
+            'name'=>'admin',
+            'email' => 'admin@admin.com',
+            'password' => 'admin'
         ]);
     }
 }

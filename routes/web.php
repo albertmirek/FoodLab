@@ -14,38 +14,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-
-Route::resource('/meals', 'MealsController');
 
 Auth::routes();
 
+
+Route::resource('/meals', 'MealsController');
+
+Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-//Route::get('/', function (){
-//
-//    if(Auth::check()){
-//
-//        return 'the user is logged in';
-//    }
-//
-////    $username = 'sada';
-////    $password ='dasda';
-//
-////    if (Auth::attempt(['username'=>$username, 'password'=>$password])){
-////        return redirect()->intended('/admin');
-////    }
-//
-//});
+
+Route::middleware('auth')->group(function (){
+
+    Route::get('/admin', 'AdminsController@index')->name('admin.index');
 
 
-//Route::get('/admin/user/roles', ['middleware'=>'role', function (){
-//
-//    return 'Middleware role';
-//}]);
+    Route::get('/admin/meals', 'MealsController@index')->name('meal.index');
+    Route::get('/admin/meals/create', 'MealsController@create')->name('meal.create');
+    Route::post('/admin/meals', 'MealsController@store')->name('meal.store');
 
 
-Route::get('/admin', 'AdminsController@index')->name('admin.index');
+    Route::get('/admin/menus', 'MenusController@index')->name('menu.index');
+    Route::get('/admin/menus/create', 'MenusController@create')->name('menu.create');
+    Route::post('/admin/menus', 'MenusController@store')->name('menu.store');
+
+});
