@@ -32,7 +32,10 @@ Route::middleware('auth')->group(function (){
 
     Route::get('/admin/meals', 'MealsController@index')->name('meal.index');
     Route::get('/admin/meals/create', 'MealsController@create')->name('meal.create');
+    Route::get('/admin/meals/{meal}/edit', 'MealsController@edit')->name('meal.edit');
+    Route::delete('/admin/meals/{meal}/delete', 'MealsController@destroy')->name('meal.destroy');
     Route::post('/admin/meals', 'MealsController@store')->name('meal.store');
+    Route::patch('/admin/meals/{meal}/update', 'MealsController@update')->name('meal.update');
 
 
     Route::get('/admin/menus', 'MenusController@index')->name('menu.index');

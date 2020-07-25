@@ -15,6 +15,9 @@ class CreateMenusTable extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
+            $table->integer('meal_id');
+            $table->enum('meal_type',['breakfast','lunch', 'dinner']);
+            $table->date('menu_date');
             $table->timestamps();
         });
     }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Meal;
+use App\Menu;
 use Illuminate\Http\Request;
 
 class MenusController extends Controller
@@ -13,7 +15,9 @@ class MenusController extends Controller
      */
     public function index()
     {
-        //
+        $menus = Menu::all();
+
+        return view('admin.menus.index', ['menus' => $menus]);
     }
 
     /**
@@ -23,7 +27,9 @@ class MenusController extends Controller
      */
     public function create()
     {
-        return view('admin.menus.create');
+        $meals = Meal::all();
+
+        return view('admin.menus.create', ['meals'=>$meals]);
     }
 
     /**
@@ -34,7 +40,13 @@ class MenusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $menu = new Menu;
+
+        $menu->meal_id = $request->get('meals');
+        $menu->meal_type = $request->get('meal_type');
+        $menu->menu_date = $request->get('date');
+
+        $menu->save();
     }
 
     /**

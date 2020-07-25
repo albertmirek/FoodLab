@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Meal;
 use Illuminate\Http\Request;
-use function GuzzleHttp\Promise\all;
+use Illuminate\Support\Facades\DB;
 
 class MealsController extends Controller
 {
@@ -35,21 +35,15 @@ class MealsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(Request $request)
     {
-//        $inputs =  \request()->validate([
-//
-//            'name'=>'required|min:8|max:255'
-//        ]);
-//        \auth()->user()->meals()->create($inputs);
-//        return back();
 
-        $inputs = \request()->validate([
-            'name'=>'required|min:6|max:30'
-        ]);
+        $meal = new Meal;
+        $meal->name = $request->get('name');
+        $meal->save();
 
-         auth()->user()->meals()->create($inputs);
-         return back();
+        session()->flash('meal-created-message', 'Byl vytvořen nový záznam s názvem: "' .$request->get('name') . '"');
+        return redirect()->route('meal.index');
     }
 
     /**
@@ -69,9 +63,9 @@ class MealsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Meal $meal)
     {
-        //
+        return view('admin.meals.edit',['meal' => $meal]);
     }
 
     /**
@@ -81,9 +75,14 @@ class MealsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Meal $meal, Request $request)
     {
-        //
+        $meal->name = $request->get('name');
+        $meal->save();
+
+        session()->flash('meal-updated-message','Jídlo s názvem: "'. $request->get('name'). '" bylo upraveno');
+        return redirect()->route('meal.index');
+
     }
 
     /**
@@ -92,8 +91,13 @@ class MealsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Meal $meal, Request $request)
     {
-        //
+        $meal->delete();
+
+        $request->session()->flash('message','Záznam byl smazán');
+        //Session::flash('message','Post was deleted');
+
+        return back();
     }
 }

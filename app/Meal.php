@@ -9,8 +9,11 @@ class Meal extends Model
 
     protected $guarded =[];
 
-    public function user(){
-        $this->belongsTo('App\User');
+//    public function user(){
+//        $this->belongsTo('App\User');
+//    }
+    public function menu(){
+        $this->belongsToMany('App\Menu');
     }
 
 

@@ -9,4 +9,8 @@ class Order extends Model
     public function user(){
         $this->hasOne('App\User');
     }
+
+    public function menu(){
+        $this->hasOne('App\Menu');
+    }
 }

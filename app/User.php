@@ -47,9 +47,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Order');
     }
 
-    public function meals(){
-        return $this->hasMany('App\Meal');
-    }
+//    public function meals(){
+//        return $this->hasMany('App\Meal');
+//    }
 
 
 }

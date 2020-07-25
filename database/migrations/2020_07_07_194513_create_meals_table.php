@@ -15,9 +15,8 @@ class CreateMealsTable extends Migration
     {
         Schema::create('meals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
             $table->string('name');
-            $table->integer('price')->nullable();;
+            $table->integer('price')->nullable();
             $table->timestamps();
         });
     }
