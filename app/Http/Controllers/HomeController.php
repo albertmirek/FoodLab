@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Meal;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -25,9 +26,22 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $days = [
+            '1' => 'Pondělí',
+            '2' =>  'Úterý',
+            '3' =>  'Středa',
+            '4' =>  'Čtvrtek',
+            '5' =>  'Pátek',
+            '6' =>  'Sobota',
+            '7' =>  'Nedělě'
+        ];
 
-        $user = Auth::user();
-        $meal = Meal::all();
-        return view('home', ['meal' => Meal::all()]);
+        $date = new \DateTime('now');
+        $week = $date->format('W');
+
+        $menus = DB::table('menus')
+                ->where('year_week', '=', $week);
+
+        return view('home', ['menus'=>$menus,'days'=>$days]);
     }
 }

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Home</h1>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -14,21 +13,23 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                        <div id="greetings">
+                            @{{message}}
+                        </div>
+
 
                 </div>
             </div>
-
-            <div>
-                @foreach($meal as $meals)
-                    <p>{{$meals->name}}</p>
-
-
-                @endforeach
-
-
-            </div>
-
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    const greetings = new Vue({
+        el: '#greetings',
+        data: {
+            message: 'Your´re logged in!'
+        }
+    })
+</script>
 @endsection

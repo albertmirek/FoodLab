@@ -18,6 +18,8 @@ class CreateMenusTable extends Migration
             $table->integer('meal_id');
             $table->enum('meal_type',['breakfast','lunch', 'dinner']);
             $table->date('menu_date');
+            $table->integer('year_week')->nullable();
+            $table->string('week_day')->nullable();
             $table->timestamps();
         });
     }

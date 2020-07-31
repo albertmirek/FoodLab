@@ -43,3 +43,4 @@ Route::middleware('auth')->group(function (){
     Route::post('/admin/menus', 'MenusController@store')->name('menu.store');
 
 });
+

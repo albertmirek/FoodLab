@@ -45,6 +45,9 @@ class MenusController extends Controller
         $menu->meal_id = $request->get('meals');
         $menu->meal_type = $request->get('meal_type');
         $menu->menu_date = $request->get('date');
+        $menu->year_week = $this->getYearWeek($request->get('date'));
+        $menu->week_day = $this->getDayOfWeek($request->get('date'));
+
 
         $menu->save();
     }
@@ -92,5 +95,21 @@ class MenusController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+
+    private function getYearWeek($date){
+        $ddate = new \DateTime($date);
+        $week = $ddate->format('W');
+
+        return $week;
+
+
+    }
+
+    private function getDayOfWeek($date){
+        $dayofweek = date('w', strtotime($date));
+        return $dayofweek;
     }
 }
