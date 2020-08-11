@@ -13,7 +13,7 @@ class Meal extends Model
 //        $this->belongsTo('App\User');
 //    }
     public function menu(){
-        $this->belongsToMany('App\Menu');
+        return $this->belongsToMany('App\Menu');
     }
 
 

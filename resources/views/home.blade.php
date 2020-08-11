@@ -8,14 +8,31 @@
                 <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+                    @for ($i = 1; $i <= 7; $i++)
+                        @foreach($menus as $menu)
+                        <h3>{{$days[$i]}} ({{$menu->}})</h3>
+
+                        <div>
+                            <h4>Oběd</h4>
+                            <div>
+                                <form action="" >
+                                    @csrf
+                                    <select class="form-control form-control-sm">
+
+                                        @if($menu->week_day== $i)
+                                            <option>{{$menu->meal->name}}</option>
+
+                                        @endif
+{{--                                        @if($menu->week_day == $i && $menu->type == 'lunch')--}}
+{{--                                            <option>{{$menu->meal->name}}</option>--}}
+{{--                                        @endif--}}
+                                    @endforeach
+                                    </select>
+                                </form>
+                            </div>
                         </div>
-                    @endif
-                        <div id="greetings">
-                            @{{message}}
-                        </div>
+
+                    @endfor
 
 
                 </div>
@@ -23,13 +40,4 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script>
-    const greetings = new Vue({
-        el: '#greetings',
-        data: {
-            message: 'Your´re logged in!'
-        }
-    })
-</script>
 @endsection
