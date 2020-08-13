@@ -9,12 +9,10 @@ class Meal extends Model
 
     protected $guarded =[];
 
-//    public function user(){
-//        $this->belongsTo('App\User');
+
+//    public function menu(){
+//        return $this->hasMany(Menu::class);
 //    }
-    public function menu(){
-        return $this->belongsToMany('App\Menu');
-    }
 
 
 

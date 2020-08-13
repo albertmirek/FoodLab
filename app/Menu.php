@@ -10,7 +10,7 @@ class Menu extends Model
     protected $guarded =[];
 
     public function meal(){
-        return $this->hasOne('App\Meal');
+        return $this->belongsTo(Meal::class);
     }
 
     public function order(){

@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     public function user(){
-        return $this->hasOne('App\User');
+        return $this->belongsTo(User::class);
     }
 
     public function menu(){
-        return $this->hasOne('App\Menu');
+        return $this->belongsTo(Menu::class);
     }
 }

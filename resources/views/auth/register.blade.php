@@ -90,7 +90,7 @@
 					</span>
 
                     <div class="wrap-input100 validate-input" >
-                        <input id="name" type="name" class="input100 @error('name') is-invalid @enderror"  name="name" placeholder="Name"
+                        <input id="name" type="text" value="{{old('name')}}" class="input100 @error('name') is-invalid @enderror"  name="name" placeholder="Name" required autocomplete="name"
                                required autocomplete="name">
                         <span class="focus-input100-1"></span>
                         <span class="focus-input100-2"></span>
@@ -103,7 +103,7 @@
 
 
                     <div class="wrap-input100 validate-input" >
-                        <input id="email" type="email" class="input100 @error('password') is-invalid @enderror"  name="email" placeholder="Email"
+                        <input id="email" type="email" value="{{ old('email') }}" class="input100 @error('password') is-invalid @enderror"  name="email" placeholder="Email" required autocomplete="email"
                                required autocomplete="email">
                         <span class="focus-input100-1"></span>
                         <span class="focus-input100-2"></span>
@@ -115,13 +115,15 @@
                     </div>
 
                     <div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
-                        <input id="password" type="password" class="input100"  name="password" placeholder="Password">
+                        <input id="password" type="password" class="input100"  name="password" placeholder="Password" required autocomplete="new-password">
+
                         <span class="focus-input100-1"></span>
                         <span class="focus-input100-2"></span>
                     </div>
 
                     <div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
-                        <input id="password-confirm" type="password" class="input100"  name="password-confirm" placeholder="Password">
+                        <input id="password-confirm" type="password" class="input100"  name="password_confirmation" placeholder="Password" required autocomplete="new-password">
+
                         <span class="focus-input100-1"></span>
                         <span class="focus-input100-2"></span>
                     </div>
@@ -145,9 +147,4 @@
             </div>
         </div>
     </div>
-
-
-
-
-
 @endsection

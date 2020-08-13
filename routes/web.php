@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function (){
 
     Route::get('/admin', 'AdminsController@index')->name('admin.index');
 
+    Route::post('/home/orders', 'HomeController@createOrder')->name('orders.create');
 
     Route::get('/admin/meals', 'MealsController@index')->name('meal.index');
     Route::get('/admin/meals/create', 'MealsController@create')->name('meal.create');
