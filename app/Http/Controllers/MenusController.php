@@ -109,7 +109,7 @@ class MenusController extends Controller
     }
 
     private function getDayOfWeek($date){
-        $dayofweek = date('w', strtotime($date));
+        $dayofweek = date('N', strtotime($date));
         return $dayofweek;
     }
 }

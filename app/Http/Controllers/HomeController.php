@@ -16,13 +16,13 @@ class HomeController extends Controller
     private $date;
     private $year_week;
     private $days = [
-        '1' => 'Pondělí',
-        '2' =>  'Úterý',
-        '3' =>  'Středa',
-        '4' =>  'Čtvrtek',
-        '5' =>  'Pátek',
-        '6' =>  'Sobota',
-        '7' =>  'Neděle'
+        '0' => 'Pondělí',
+        '1' =>  'Úterý',
+        '2' =>  'Středa',
+        '3' =>  'Čtvrtek',
+        '4' =>  'Pátek',
+        '5' =>  'Sobota',
+        '6' =>  'Neděle'
     ];
 
     /**
@@ -57,14 +57,14 @@ class HomeController extends Controller
     public function createOrder(Request $request){
 
         $userId = User::find(\auth()->id());
+//        dd($userId);
 
-//        dd($request);
         $order = new Order();
-        $order->user_id = $userId;
+        $order->user_id = $userId->id;
         $order->menu_id = $request->get('menu_id');
         $order->save();
 
-        return view('home');
+        return $this->index();
     }
 
 

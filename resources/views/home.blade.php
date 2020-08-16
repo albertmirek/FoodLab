@@ -10,7 +10,7 @@
 {{--                <div class="card-body">--}}
 {{--                    @for ($i = 1; $i <= 7; $i++)--}}
 {{--                        @foreach($menus as $menu)--}}
-{{--                        <div class="card-title">{{$days[$i]}}</div>--}}
+{{--                        <div class="card-title">{{$days ?? '' ?? ''[$i]}}</div>--}}
 
 {{--                        <div class="card-body">--}}
 {{--                            <div class="card-subtitle">Oběd</div>--}}
@@ -54,12 +54,28 @@
 {{--@endsection--}}
 
 @section('content')
+    <script language="javascript">
+        $(document).ready(function(){
+            $('#submitBtn').on('click',function(){
+                $('#form0').submit();
+                // $('#form2').submit();
+                // $('#form3').submit();
+                // $('#form4').submit();
+                // $('#form5').submit();
+                // $('#form6').submit();
+                // $('#form7').submit();
+            });
+
+        });
+    </script>
+
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <form action="{{route('orders.create')}}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    @for($i = 1; $i <= 7; $i++)
+                @for($i = 0; $i <= 6; $i++)
+                    <form action="{{route('orders.create')}}" method="post" enctype="multipart/form-data" id="form{{$i}}">
+                        @csrf
                         <div class="card" id="card">
                             <div class="card-header" id="card-header">{{$days[$i]}}</div>
 
@@ -82,9 +98,9 @@
                                 </select>
                             </div>
                         </div>
+                    </form>
                     @endfor
-                        <button type="submit" class="btn btn-primary">Uložit</button>
-                </form>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">Uložit</button>
             </div>
         </div>
     </div>
