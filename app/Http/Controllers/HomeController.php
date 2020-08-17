@@ -16,13 +16,13 @@ class HomeController extends Controller
     private $date;
     private $year_week;
     private $days = [
-        '0' => 'Pondělí',
-        '1' =>  'Úterý',
-        '2' =>  'Středa',
-        '3' =>  'Čtvrtek',
-        '4' =>  'Pátek',
-        '5' =>  'Sobota',
-        '6' =>  'Neděle'
+        '1' => 'Pondělí',
+        '2' =>  'Úterý',
+        '3' =>  'Středa',
+        '4' =>  'Čtvrtek',
+        '5' =>  'Pátek',
+        '6' =>  'Sobota',
+        '7' =>  'Neděle'
     ];
 
     /**
@@ -33,6 +33,9 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
+        $this->date = new \DateTime('now');
+        $this->year_week = $this->date->format('W');
     }
 
     /**
@@ -42,10 +45,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $this->date = new \DateTime('now');
-        $this->year_week = $this->date->format('W');
-
-
         $menus = Menu::all()
             ->where('year_week', '=', $this->year_week);
 
@@ -57,14 +56,18 @@ class HomeController extends Controller
     public function createOrder(Request $request){
 
         $userId = User::find(\auth()->id());
-//        dd($userId);
 
-        $order = new Order();
-        $order->user_id = $userId->id;
-        $order->menu_id = $request->get('menu_id');
-        $order->save();
+        if ($request->menu_id == null){
+            return $this->index();
+        }else{
+            $order = new Order();
+            $order->user_id = $userId->id;
+            $order->menu_id = $request->get('menu_id');
+            $order->save();
 
-        return $this->index();
+            return $this->index();
+        }
+
     }
 
 
