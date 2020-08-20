@@ -59,6 +59,7 @@
             $('#submitBtn').on('click',function(){
                 $('#form1_lunch').submit();
                 $('#form1_dinner').submit();
+                $('#form3_lunch').submit();
                 // $('#form2').submit();
                 // $('#form3').submit();
                 // $('#form4').submit();
@@ -110,4 +111,45 @@
             </div>
         </div>
     </div>
+@endsection
+
+
+
+
+@section('content2')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+{{--                <form action="{{route('home.next')}}">--}}
+{{--                    <button class="btn btn-primary" disabled>Předchozí týden</button>--}}
+{{--                    <input type="submit" class="btn btn-primary" value="Následující týden"/>--}}
+{{--                </form>--}}
+                @for($i = 1; $i <= 7; $i++)
+                    <div class="card" id="card">
+                        <div class="card-header" id="card-header">{{$dates[$i-1][1]}} ({{$dates[$i-1][2]}}) </div>
+
+                        <div class="card-body" id="card-body">
+                            <div class="card-subtitle" id="card-subtitle">Oběd</div>
+                            @foreach($orders as $order)
+                                @if($order->menu->meal_type == 'lunch' && $order->menu->week_day == $i)
+                                <label><b>{{$order->menu->meal->name}}</b></label>
+                                @else
+                                    <label><i>Objednávka na tento den nebyla vytvořena</i></label>
+                                @endif
+                            @endforeach
+                            <div class="card-subtitle" id="card-subtitle">Večeře</div>
+                            @foreach($orders as $order)
+                                @if($order->menu->meal_type == 'dinner' && $order->menu->week_day == $i)
+                                    <label><b>{{$order->menu->meal->name}}</b></label>
+                                @else
+                                    <label><i>Objednávka na tento den nebyla vytvořena</i></label>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                @endfor
+            </div>
+        </div>
+    </div>
+
 @endsection

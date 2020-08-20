@@ -13,4 +13,8 @@ class Order extends Model
     public function menu(){
         return $this->belongsTo(Menu::class);
     }
+
+    public function meal(){
+        return $this->hasOneThrough(Meal::class, Menu::class);
+    }
 }
