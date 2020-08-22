@@ -1,122 +1,100 @@
 @extends('layouts.app')
-
-{{--@section('content')--}}
-{{--<div class="container">--}}
-{{--    <div class="row justify-content-center">--}}
-{{--        <div class="col-md-8">--}}
-{{--            <div class="card">--}}
-{{--                <div class="card-header">Dashboard</div>--}}
-
-{{--                <div class="card-body">--}}
-{{--                    @for ($i = 1; $i <= 7; $i++)--}}
-{{--                        @foreach($menus as $menu)--}}
-{{--                        <div class="card-title">{{$days ?? '' ?? ''[$i]}}</div>--}}
-
-{{--                        <div class="card-body">--}}
-{{--                            <div class="card-subtitle">Oběd</div>--}}
-{{--                            <div>--}}
-{{--                                <form action="" >--}}
-{{--                                    @csrf--}}
-{{--                                    <select class="form-control form-control-sm">--}}
-{{--                                        <option value="" selected disabled hidden>Vyberte zde</option>--}}
-{{--                                        @if($menu->week_day== $i && $menu->meal_type == 'lunch')--}}
-{{--                                            <option>{{$menu->meal->name}}</option>--}}
-
-{{--                                        @endif--}}
-{{--                                    </select>--}}
-{{--                                </form>--}}
-{{--                            </div>--}}
-{{--                            <div class="card-subtitle">Večeře</div>--}}
-{{--                            <div>--}}
-{{--                                <form action="" >--}}
-{{--                                    @csrf--}}
-{{--                                    <select class="form-control form-control-sm">--}}
-{{--                                        <option value="" selected disabled hidden>Vyberte zde</option>--}}
-{{--                                        @if($menu->week_day== $i && $menu->meal_type == 'dinner')--}}
-{{--                                            <option value="{{$menu->meal->id}}">{{$menu->meal->name}}</option>--}}
-
-{{--                                        @endif--}}
-
-{{--                                    </select>--}}
-{{--                                </form>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        @endforeach--}}
-
-{{--                    @endfor--}}
-
-
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--</div>--}}
-{{--@endsection--}}
-
-@section('content')
+@section('content2')
     <script language="javascript">
         $(document).ready(function(){
-            $('#submitBtn').on('click',function(){
-                $('#form1_lunch').submit();
-                $('#form1_dinner').submit();
-                $('#form3_lunch').submit();
-                // $('#form2').submit();
-                // $('#form3').submit();
-                // $('#form4').submit();
-                // $('#form5').submit();
-                // $('#form6').submit();
-                // $('#form7').submit();
-            });
+            $('#submitBtn1').on('click',function(){
+                $('#form1lunch').submit();
+                $('#form1dinner').submit();
 
+            });
+            $('#submitBtn2').on('click',function(){
+                $('#form2lunch').submit();
+                $('#form2dinner').submit();
+            });
+            $('#submitBtn3').on('click',function(){
+                $('#form3lunch').submit();
+                $('#form3dinner').submit();
+            });
+            $('#submitBtn4').on('click',function(){
+                $('#form4lunch').submit();
+                $('#form4dinner').submit();
+            });
+            $('#submitBtn5').on('click',function(){
+                $('#form5lunch').submit();
+                $('#form5dinner').submit();
+            });
+            $('#submitBtn6').on('click',function(){
+                $('#form6lunch').submit();
+                $('#form6dinner').submit();
+            });
+            $('#submitBtn7').on('click',function(){
+                $('#form7lunch').submit();
+                $('#form7dinner').submit();
+            });
         });
     </script>
-
-
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                @for($i = 1; $i <= 7; $i++)
-                    <div class="card" id="card">
-                        <div class="card-header" id="card-header">{{$days[$i]}}</div>
-
-                        <div class="card-body" id="card-body">
-                            <div class="card-subtitle" id="card-subtitle">Oběd</div>
-                            <form action="{{route('orders.create')}}" method="post" enctype="multipart/form-data" id="form{{$i}}_lunch">
+    <!-- Modal -->
+    @foreach($dates as $date)
+    <div class="modal fade" id="{{$date[1]}}Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{$date[1]}} ({{$date[2]}})</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-title">Oběd</div>
+                            <form action="{{route('orders.store')}}" method="post" enctype="multipart/form-data" id="form{{$date[0]}}lunch">
                                 @csrf
-                                <select class="form-control form-control-sm" id="card-select" name="menu_id">
-                                    <option id="card-option" value=""></option>
-                                    @foreach($menus as $menu)
-                                        @if($menu->week_day== $i && $menu->meal_type == 'lunch')
-                                            <option id="card-option" value="{{$menu->id}}">{{$menu->meal->name}}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
+                                <div class="form-group">
+                                    <select name="selectedMeal" id="selectedMeal">
+                                        {{--                                    @foreach($orders as $order)--}}
+                                        {{--                                        @if($order->menu->meal_type == 'lunch' && $order->menu->week_day == $date[0])--}}
+                                        {{--                                            <option value="{{$order->menu->id}}">{{$order->menu->meal->name}}</option>--}}
+                                        {{--                                            @break--}}
+                                        {{--                                        @else--}}
+                                        {{--                                            <option value=""></option>--}}
+                                        {{--                                        @endif--}}
+                                        {{--                                    @endforeach--}}
+                                        @foreach($menus as $menu)
+                                            @if($menu->meal_type == 'lunch' && $menu->week_day == $date[0])
+                                                <option value="5">{{$menu->meal->name}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+
                             </form>
-                            <div class="card-subtitle" id="card-subtitle">Večeře</div>
-                            <form action="{{route('orders.create')}}" method="post" enctype="multipart/form-data" id="form{{$i}}_dinner">
-                                @csrf
-                                <select class="form-control form-control-sm" id="card-select" name="menu_id">
-                                    <option id="card-option" value=""></option>
-                                    @foreach($menus as $menu)
-                                        @if($menu->week_day== $i && $menu->meal_type == 'dinner')
-                                            <option id="card-option" value="{{$menu->id}}">{{$menu->meal->name}}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </form>
-                            </div>
-                        </div>
-                    @endfor
-                        <button type="submit" class="btn btn-primary" id="submitBtn">Uložit</button>
+                    <div class="modal-title">Večeře</div>
+                        <form action="{{route('orders.store')}}" method="post" enctype="multipart/form-data" id="form{{$date[0]}}dinner">
+                        @csrf
+                        <select name="selectedMeal" id="selectedMeal">
+                            @foreach($orders as $order)
+                                @if($order->menu->meal_type == 'dinner' && $order->menu->week_day == $date[0])
+                                    <option value="{{$order->menu->id}}">{{$order->menu->meal->name}}</option>
+                                @else
+                                    <option value=""></option>
+                                @endif
+                            @endforeach
+                            @foreach($menus as $menu)
+                                @if($menu->meal_type == 'dinner' && $menu->week_day == $date[0])
+                                    <option value="{{$menu->id}}">{{$menu->meal->name}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="submitBtn{{$date[0]}}">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-@endsection
+    @endforeach
 
-
-
-
-@section('content2')
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -124,30 +102,38 @@
 {{--                    <button class="btn btn-primary" disabled>Předchozí týden</button>--}}
 {{--                    <input type="submit" class="btn btn-primary" value="Následující týden"/>--}}
 {{--                </form>--}}
-                @for($i = 1; $i <= 7; $i++)
+                @foreach($dates as $date)
                     <div class="card" id="card">
-                        <div class="card-header" id="card-header">{{$dates[$i-1][1]}} ({{$dates[$i-1][2]}}) </div>
+                        <div class="card-header" id="card-header">{{$date[1]}} ({{$date[2]}}) </div>
 
                         <div class="card-body" id="card-body">
                             <div class="card-subtitle" id="card-subtitle">Oběd</div>
                             @foreach($orders as $order)
-                                @if($order->menu->meal_type == 'lunch' && $order->menu->week_day == $i)
+                                @if($order->menu->meal_type == 'lunch' && $order->menu->week_day == $date[0])
                                 <label><b>{{$order->menu->meal->name}}</b></label>
+                                    @break
                                 @else
                                     <label><i>Objednávka na tento den nebyla vytvořena</i></label>
+                                    @break
                                 @endif
                             @endforeach
                             <div class="card-subtitle" id="card-subtitle">Večeře</div>
                             @foreach($orders as $order)
-                                @if($order->menu->meal_type == 'dinner' && $order->menu->week_day == $i)
+                                @if($order->menu->meal_type == 'dinner' && $order->menu->week_day == $date[0])
                                     <label><b>{{$order->menu->meal->name}}</b></label>
+                                    @break
                                 @else
                                     <label><i>Objednávka na tento den nebyla vytvořena</i></label>
+                                    @break
                                 @endif
                             @endforeach
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{$date[1]}}Modal">
+                                Objednat
+                            </button>
+
                         </div>
                     </div>
-                @endfor
+                @endforeach
             </div>
         </div>
     </div>

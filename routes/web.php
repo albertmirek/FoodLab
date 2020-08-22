@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function (){
 
     Route::get('/admin', 'AdminsController@index')->name('admin.index');
 
-    Route::post('/home/orders', 'HomeController@createOrder')->name('orders.create');
+    Route::post('/home/orders', 'HomeController@ordersStore')->name('orders.store');
 
     //Route::get('/home/{week}', 'HomeController@nextWeek')->name('home.next');
 

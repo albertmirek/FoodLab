@@ -17,15 +17,15 @@ class HomeController extends Controller
     private $user_id;
     private $date;
     private $year_week;
-    private $days = [
-        '1' => 'Pondělí',
-        '2' =>  'Úterý',
-        '3' =>  'Středa',
-        '4' =>  'Čtvrtek',
-        '5' =>  'Pátek',
-        '6' =>  'Sobota',
-        '7' =>  'Neděle'
-    ];
+//    private $days = [
+//        '1' => 'Pondělí',
+//        '2' =>  'Úterý',
+//        '3' =>  'Středa',
+//        '4' =>  'Čtvrtek',
+//        '5' =>  'Pátek',
+//        '6' =>  'Sobota',
+//        '7' =>  'Neděle'
+//    ];
     private $dates = array(
         array(1, "Pondělí"),
         array(2, "Úterý"),
@@ -69,7 +69,7 @@ class HomeController extends Controller
 
         $this->makeDates($this->dates, $this->year_week);
 
-        return view('home', ['menus'=>$menus,'days'=>$this->days, 'orders' => $orders,'dates'=> $this->dates]);
+        return view('home', ['menus'=>$menus, 'orders' => $orders,'dates'=> $this->dates]);
     }
 
     public function createOrder(Request $request){
@@ -94,12 +94,41 @@ class HomeController extends Controller
         return $this->index();
     }
 
+
+    public function ordersStore(Request $request){
+        $this->user_id = User::find(\auth()->id());
+
+        if ($request->get('selectedMeal')!=null){
+            $order = new Order;
+            $order->user_id = $this->user_id->id;
+            $order->menu_id = $request->get('selectedMeal');
+
+            if ($this->validateOrder($order, $this->user_id)){
+                $order->save();
+                return $this->index();
+            }else{
+                $order->delete();
+            }
+        }
+    }
+
+
+
     private function makeDates(Array $arg, $arg2){
 
         for ($i = 1; $i<=7; $i++){
             $gendate = new \DateTime();
             $gendate->setISODate($this->year, $this->year_week, $this->dates[$i-1][0]);
             $this->dates[$i-1][2] = $gendate->format('d. m.');
+        }
+    }
+
+    private function validateOrder(Order $order, $user){
+        $validator = Order::all()->where('user_id', '=', $user);
+        if ($validator->menu_id==$order->menu_id){
+            return false;
+        }else{
+            return true;
         }
     }
 

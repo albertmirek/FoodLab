@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -53,7 +54,6 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
