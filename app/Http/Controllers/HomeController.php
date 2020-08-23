@@ -17,15 +17,6 @@ class HomeController extends Controller
     private $user_id;
     private $date;
     private $year_week;
-//    private $days = [
-//        '1' => 'Pondělí',
-//        '2' =>  'Úterý',
-//        '3' =>  'Středa',
-//        '4' =>  'Čtvrtek',
-//        '5' =>  'Pátek',
-//        '6' =>  'Sobota',
-//        '7' =>  'Neděle'
-//    ];
     private $dates = array(
         array(1, "Pondělí"),
         array(2, "Úterý"),
@@ -50,7 +41,6 @@ class HomeController extends Controller
         $this->date = new \DateTime('now');
         $this->year_week = $this->date->format('W');
 
-
     }
 
     /**
@@ -74,17 +64,27 @@ class HomeController extends Controller
 
     public function createOrder(Request $request){
 
-        if ($request->menu_id == null){
-            return $this->index();
-        }else{
-            $order = new Order;
-            $order->user_id = $this->user_id;
-            $order->menu_id = $request->get('menu_id');
-            $order->save();
+        $this->user_id = User::find(\auth()->id());
+        if ($request->menu_id == null ){
+            return redirect()->route('home');
 
-            return $this->index();
+        }elseif($this->validateDuplicity($request)) {
+            $order = new Order;
+            $order->user_id = $this->user_id->id;
+            $order->menu_id = $request->get('menu_id');
+
+            $this->ordersStore($order);
         }
 
+    }
+
+    public function ordersStore(Order $order){
+        if ($this->findDuplicityOrder($order, $this->user_id->id)){
+            $order->save();
+        }else{
+            echo '<script type="text/javascript">alert("Již máte objednáno! \n Pro objednání jídla je nutno odebrat stávající.")</script>';
+        }
+        return redirect()->route('home');
     }
 
     public function nextWeek($yearweek){
@@ -92,24 +92,6 @@ class HomeController extends Controller
         $this->year_week++;
 
         return $this->index();
-    }
-
-
-    public function ordersStore(Request $request){
-        $this->user_id = User::find(\auth()->id());
-
-        if ($request->get('selectedMeal')!=null){
-            $order = new Order;
-            $order->user_id = $this->user_id->id;
-            $order->menu_id = $request->get('selectedMeal');
-
-            if ($this->validateOrder($order, $this->user_id)){
-                $order->save();
-                return $this->index();
-            }else{
-                $order->delete();
-            }
-        }
     }
 
 
@@ -123,13 +105,25 @@ class HomeController extends Controller
         }
     }
 
-    private function validateOrder(Order $order, $user){
-        $validator = Order::all()->where('user_id', '=', $user);
-        if ($validator->menu_id==$order->menu_id){
-            return false;
-        }else{
-            return true;
-        }
+    private function validateDuplicity(Request $request){
+        $this->user_id = User::find(\auth()->id());
+        $validator = Order::all()
+            ->where('user_id','=', $this->user_id)->get('menu_id');
+        if(isset($validator)){
+            if ($validator->menu_id != $request->menu_id){
+                return true;
+            }else return false;
+        }else return true;
+
+    }
+
+    private function findDuplicityOrder(Order $order, $user_id){
+        $tempOrder = Order::all()
+            ->where('user_id','=', $user_id)
+            ->where('menu->menu_date','=', $order->menu->menu_date)
+            ->where('menu->meal_type', '=', $order->menu->meal_type);
+        if (isset($tempOrder)) return true;
+        else return false;
     }
 
 

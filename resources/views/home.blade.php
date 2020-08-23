@@ -46,21 +46,21 @@
                 </div>
                 <div class="modal-body">
                     <div class="modal-title">Oběd</div>
-                            <form action="{{route('orders.store')}}" method="post" enctype="multipart/form-data" id="form{{$date[0]}}lunch">
+                            <form action="{{route('orders.create')}}" method="post" enctype="multipart/form-data" id="form{{$date[0]}}lunch">
                                 @csrf
                                 <div class="form-group">
-                                    <select name="selectedMeal" id="selectedMeal">
-                                        {{--                                    @foreach($orders as $order)--}}
-                                        {{--                                        @if($order->menu->meal_type == 'lunch' && $order->menu->week_day == $date[0])--}}
-                                        {{--                                            <option value="{{$order->menu->id}}">{{$order->menu->meal->name}}</option>--}}
-                                        {{--                                            @break--}}
-                                        {{--                                        @else--}}
-                                        {{--                                            <option value=""></option>--}}
-                                        {{--                                        @endif--}}
-                                        {{--                                    @endforeach--}}
+                                    <select name="menu_id" id="menu_id">
+                                        @foreach($orders as $order)
+                                            @if($order->menu->meal_type == 'lunch' && $order->menu->week_day == $date[0])
+                                                <option value="{{$order->menu->id}}">{{$order->menu->meal->name}}</option>
+                                                @break
+                                            @else
+                                                <option value=""></option>
+                                            @endif
+                                        @endforeach
                                         @foreach($menus as $menu)
                                             @if($menu->meal_type == 'lunch' && $menu->week_day == $date[0])
-                                                <option value="5">{{$menu->meal->name}}</option>
+                                                <option value="{{$menu->id}}">{{$menu->meal->name}}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -68,23 +68,27 @@
 
                             </form>
                     <div class="modal-title">Večeře</div>
-                        <form action="{{route('orders.store')}}" method="post" enctype="multipart/form-data" id="form{{$date[0]}}dinner">
+                    <form action="{{route('orders.create')}}" method="post" enctype="multipart/form-data" id="form{{$date[0]}}dinner">
                         @csrf
-                        <select name="selectedMeal" id="selectedMeal">
-                            @foreach($orders as $order)
-                                @if($order->menu->meal_type == 'dinner' && $order->menu->week_day == $date[0])
-                                    <option value="{{$order->menu->id}}">{{$order->menu->meal->name}}</option>
-                                @else
-                                    <option value=""></option>
-                                @endif
-                            @endforeach
-                            @foreach($menus as $menu)
-                                @if($menu->meal_type == 'dinner' && $menu->week_day == $date[0])
-                                    <option value="{{$menu->id}}">{{$menu->meal->name}}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                        </form>
+                        <div class="form-group">
+                            <select name="menu_id" id="menu_id">
+                                @foreach($orders as $order)
+                                    @if($order->menu->meal_type == 'dinner' && $order->menu->week_day == $date[0])
+                                        <option value="{{$order->menu->id}}">{{$order->menu->meal->name}}</option>
+                                        @break
+                                    @else
+                                        <option value=""></option>
+                                    @endif
+                                @endforeach
+                                @foreach($menus as $menu)
+                                    @if($menu->meal_type == 'dinner' && $menu->week_day == $date[0])
+                                        <option value="{{$menu->id}}">{{$menu->meal->name}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" id="submitBtn{{$date[0]}}">Save changes</button>

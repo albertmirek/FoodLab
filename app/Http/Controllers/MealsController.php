@@ -37,7 +37,6 @@ class MealsController extends Controller
      */
     public function store(Request $request)
     {
-
         $meal = new Meal;
         $meal->name = $request->get('name');
         $meal->save();
