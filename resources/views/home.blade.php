@@ -51,8 +51,8 @@
                                 <div class="form-group">
                                     <select name="menu_id" id="menu_id">
                                         @foreach($orders as $order)
-                                            @if($order->menu->meal_type == 'lunch' && $order->menu->week_day == $date[0])
-                                                <option value="{{$order->menu->id}}">{{$order->menu->meal->name}}</option>
+                                            @if($order->meal_type == 'lunch' && $order->week_day == $date[0])
+                                                <option value="{{$order->id}}">{{$order->name}}</option>
                                                 @break
                                             @else
                                                 <option value=""></option>
@@ -73,8 +73,8 @@
                         <div class="form-group">
                             <select name="menu_id" id="menu_id">
                                 @foreach($orders as $order)
-                                    @if($order->menu->meal_type == 'dinner' && $order->menu->week_day == $date[0])
-                                        <option value="{{$order->menu->id}}">{{$order->menu->meal->name}}</option>
+                                    @if($order->meal_type == 'dinner' && $order->week_day == $date[0])
+                                        <option value="{{$order->id}}">{{$order->name}}</option>
                                         @break
                                     @else
                                         <option value=""></option>
@@ -113,8 +113,8 @@
                         <div class="card-body" id="card-body">
                             <div class="card-subtitle" id="card-subtitle">Oběd</div>
                             @foreach($orders as $order)
-                                @if($order->menu->meal_type == 'lunch' && $order->menu->week_day == $date[0])
-                                <label><b>{{$order->menu->meal->name}}</b></label>
+                                @if($order->meal_type == 'lunch' && $order->week_day == $date[0])
+                                <label><b>{{$order->name}}</b></label>
                                     @break
                                 @else
                                     <label><i>Objednávka na tento den nebyla vytvořena</i></label>
@@ -123,8 +123,8 @@
                             @endforeach
                             <div class="card-subtitle" id="card-subtitle">Večeře</div>
                             @foreach($orders as $order)
-                                @if($order->menu->meal_type == 'dinner' && $order->menu->week_day == $date[0])
-                                    <label><b>{{$order->menu->meal->name}}</b></label>
+                                @if($order->meal_type == 'dinner' && $order->week_day == $date[0])
+                                    <label><b>{{$order->name}}</b></label>
                                     @break
                                 @else
                                     <label><i>Objednávka na tento den nebyla vytvořena</i></label>

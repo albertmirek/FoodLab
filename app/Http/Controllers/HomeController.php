@@ -51,8 +51,14 @@ class HomeController extends Controller
     public function index()
     {
         $this->user_id = User::find(\auth()->id());
-        $orders = Order::all()
-            ->where('user_id', '=', $this->user_id->id);
+
+        $orders = DB::table('orders')
+            ->where('user_id', '=', $this->user_id->id)
+            ->join('menus', 'orders.menu_id', '=', 'menus.id')
+            ->join('meals', 'menus.meal_id', '=', 'meals.id')
+            ->where('menus.year_week', '=', $this->year_week)
+            ->select('orders.*', 'menus.*', 'meals.name')
+            ->get();
 
         $menus = Menu::all()
             ->where('year_week', '=', $this->year_week);
@@ -65,7 +71,7 @@ class HomeController extends Controller
     public function createOrder(Request $request){
 
         $this->user_id = User::find(\auth()->id());
-        if ($request->menu_id == null ){
+        if ($request->get('menu_id') == null ){
             return redirect()->route('home');
 
         }elseif($this->validateDuplicity($request)) {
@@ -87,16 +93,7 @@ class HomeController extends Controller
         return redirect()->route('home');
     }
 
-    public function nextWeek($yearweek){
-
-        $this->year_week++;
-
-        return $this->index();
-    }
-
-
-
-    private function makeDates(Array $arg, $arg2){
+    private function makeDates(){
 
         for ($i = 1; $i<=7; $i++){
             $gendate = new \DateTime();
