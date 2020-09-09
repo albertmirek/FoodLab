@@ -69,22 +69,22 @@ class HomeController extends Controller
     }
 
     public function createOrder(Request $request){
+        dd($request);
         $this->user_id = User::find(\auth()->id());
         if ($request->get('menu_id') == null ){
             return redirect()->route('home');
 
-        }elseif($this->validateDuplicity($request)) {
-
-            $this->ordersStore($request);
+        }elseif($this->validateDuplicity($request, $this->user_id)) {
+            $this->ordersStore($request, $this->user_id);
         }else return redirect()->route('home');
 
 
     }
 
-    public function ordersStore(Request $request){
-        if ($this->findDuplicityOrder($request, $this->user_id->id)){
+    public function ordersStore(Request $request, $user_id){
+        if ($this->findDuplicityOrder($request, $user_id)){
             $order = new Order;
-            $order->user_id = $this->user_id->id;
+            $order->user_id = $user_id->id;
             $order->menu_id = $request->get('menu_id');
             $order->save();
         }else{
@@ -102,11 +102,12 @@ class HomeController extends Controller
         }
     }
 
-    private function validateDuplicity(Request $request){
+    private function validateDuplicity(Request $request, $user_id){
         $this->user_id = User::find(\auth()->id());
         $validator = Order::all()
+            ->where('user_id', '=', $user_id)
             ->where('menu_id', '=', $request->get('menu_id'));
-        if (isset($validator)){
+        if ($validator==""){
             return false;
         }else return true;
 
@@ -114,7 +115,6 @@ class HomeController extends Controller
 
     //Najdi objednávku na stávající den, oběd/večeře
     private function findDuplicityOrder(Request $request, $user_id){
-
         $newOrder = DB::table('orders')
             ->where('user_id', '=', $user_id)
             ->join('menus', 'orders.menu_id', '=', 'menus.id')
@@ -128,21 +128,22 @@ class HomeController extends Controller
             ->where('menus.menu_date', '=', $newOrder->get('menu_date'))
             ->where('menus.meal_type', '=', $newOrder->get('meal_type'))
             ->get();
-        dd($existingOrder);
 
-        if (isset($existingOrder)) return false;
+
+        if ($existingOrder=="") return false;
         else return true;
     }
 
-    private function validate(Request $request, $user_id){
-        if ($request->get('menu_id') == null ){
-            return redirect()->route('home');
-
-        }elseif($this->validateDuplicity($request)) {
-
-            $this->ordersStore($request);
-        }else return redirect()->route('home');
-    }
+//    private function validate(Request $request, $user_id){
+//        if ($request->get('menu_id') == null ){
+//            return false;
+//
+//        }elseif($this->validateDuplicity($request)) {
+//            if ($this->findDuplicityOrder($request, $user_id)){
+//
+//            }
+//        }else return redirect()->route('home');
+//    }
 
 
 

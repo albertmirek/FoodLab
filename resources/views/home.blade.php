@@ -55,8 +55,6 @@
                                             @if($order->meal_type == 'lunch' && $order->week_day == $date[0])
                                                 <option value="{{$order->id}}">{{$order->name}}</option>
                                                 @break
-                                            @else
-                                                <option value=""></option>
                                             @endif
                                         @endforeach
                                         @foreach($menus as $menu)
@@ -68,28 +66,27 @@
                                 </div>
 
                             </form>
-{{--                    <div class="modal-title">Večeře</div>--}}
-{{--                    <form action="{{route('orders.create')}}" method="post" enctype="multipart/form-data" id="form{{$date[0]}}dinner">--}}
-{{--                        @csrf--}}
-{{--                        <div class="form-group">--}}
-{{--                            <select name="menu_id" id="menu_id">--}}
-{{--                                @foreach($orders as $order)--}}
-{{--                                    @if($order->meal_type == 'dinner' && $order->week_day == $date[0])--}}
-{{--                                        <option value="{{$order->id}}">{{$order->name}}</option>--}}
-{{--                                        @break--}}
-{{--                                    @else--}}
-{{--                                        <option value=""></option>--}}
-{{--                                    @endif--}}
-{{--                                @endforeach--}}
-{{--                                @foreach($menus as $menu)--}}
-{{--                                    @if($menu->meal_type == 'dinner' && $menu->week_day == $date[0])--}}
-{{--                                        <option value="{{$menu->id}}">{{$menu->meal->name}}</option>--}}
-{{--                                    @endif--}}
-{{--                                @endforeach--}}
-{{--                            </select>--}}
-{{--                        </div>--}}
+                    <div class="modal-title">Večeře</div>
+                    <form action="{{route('orders.create')}}" method="post" enctype="multipart/form-data" id="form{{$date[0]}}dinner">
+                        @csrf
+                        <div class="form-group">
+                            <select name="menu_id" id="menu_id">
+                                <option value=""></option>
+                                @foreach($orders as $order)
+                                    @if($order->meal_type == 'dinner' && $order->week_day == $date[0])
+                                        <option value="{{$order->id}}">{{$order->name}}</option>
+                                        @break
+                                    @endif
+                                @endforeach
+                                @foreach($menus as $menu)
+                                    @if($menu->meal_type == 'dinner' && $menu->week_day == $date[0])
+                                        <option value="{{$menu->id}}">{{$menu->meal->name}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
 
-{{--                    </form>--}}
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" id="submitBtn{{$date[0]}}">Save changes</button>
@@ -115,9 +112,9 @@
                             <div class="card-subtitle" id="card-subtitle">Oběd</div>
                             @foreach($orders as $order)
                                 @if($order->meal_type == 'lunch' && $order->week_day == $date[0])
-                                <label><b>{{$order->name}}</b></label>
+                                <label id="{{$order->id}}"><b>{{$order->name}}</b></label>
                                     @break
-                                @else
+                                @elseif($order->id == "")
                                     <label><i>Objednávka na tento den nebyla vytvořena</i></label>
                                     @break
                                 @endif
